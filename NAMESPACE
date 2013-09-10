@@ -1,0 +1,27 @@
+exportMethods(
+    "[",
+    "[[",
+    "[<-",
+    "cComb",
+    "credal",
+    "dComb",
+    "focal",
+    "focal<-",
+    "lower",
+    "mass",
+    "mComb",
+    "pign",
+    "extPoints",
+    "relPl",
+    "space",
+    "space<-",
+    "upper",
+    "yComb",
+    "disc"
+)
+exportClasses(
+     "credal",
+     "mass",
+     "massQ" 
+)
+
