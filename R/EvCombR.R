@@ -1,6 +1,6 @@
 # =============================================================================
-# EvCombR, R Package for combining evidence, Version 0.1 
-# Copyright (c) 2013 Alexander Karlsson
+# EvCombR, R Package for combining evidence, Version 0.1-1 
+# Copyright (c) 2014 Alexander Karlsson
 #
 # License: The MIT License (MIT)
 #
@@ -34,8 +34,8 @@
 # ============== Hooks ========================================================
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage("
-EvCombR - Evidence Combination in R, Version 0.1 
-Copyright (c) 2013, Alexander Karlsson
+EvCombR - Evidence Combination in R, Version 0.1-1 
+Copyright (c) 2014, Alexander Karlsson
 License: MIT
 ")
 }
@@ -99,10 +99,11 @@ setGeneric("extPoints", function(x) standardGeneric("extPoints"))
 setGeneric("focal", function(x) standardGeneric("focal")) 
 
 # lower bounds for a set of states 
-setGeneric("lower", function(x, set) standardGeneric("lower"))
+setGeneric("lower", function(x, sets) standardGeneric("lower"))       
 
 # upper bounds for a set of states          
-setGeneric("upper", function(x, set) standardGeneric("upper"))
+setGeneric("upper", function(x, sets) standardGeneric("upper"))    
+
 
 # Dempster's combination operator
 setGeneric("dComb", function(x, y) standardGeneric("dComb"))
@@ -172,22 +173,23 @@ setMethod("extPoints", "credal", function(x) x@extPoints)
 
 # lower bounds, for states in the set "set"
 setMethod("lower", c("credal", "character"), 
-    function(x, set) {
-        min(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
+    function(x, sets) {
+        f <- function(set) {
+            min(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
+        }
+        sapply(sets, f)
     })
 
-      
+
 # upper bounds, for states in the set "set" 
 setMethod("upper", c("credal", "character"), 
-    function(x, set) {
-        max(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
-    })
+    function(x, sets) {
+        f <- function(set) {             
+              max(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
+        }
+        sapply(sets, f)  
+    })  
 
-# upper bounds, for single states (returns a vector of upper bounds)  
-setMethod("upper", c("credal", "missing"), 
-    function(x, set) {
-        apply(x@extPoints, 2, max)  
-    }) 
 
 
 # credal combination operator, for credal sets
@@ -285,23 +287,39 @@ setReplaceMethod("focal", c("mass", "list"),
 
 # lower bound (also known as Belief)
 setMethod("lower", c("mass", "character"),
-    function(x, set) {
-        # sum over all subsets of "set" 
-        sum(unlist(x@focal[match(powerSet(strsplit(set, "/")[[1]]), 
-                                 names(x@focal))]), na.rm=TRUE)
-    })
+    function(x, sets) {
+        ff <- function(set) {
+            # make sets invariant to order
+            f <- function(set) {
+                paste0(sort(strsplit(set, "/")[[1]]), collapse="/")            
+            }
+            setInvar <- f(set)
+            names(x@focal) <- sapply(names(x@focal), f)                           
+              
+            # sum over all subsets of "set" 
+            sum(unlist(x@focal[powerSet(strsplit(setInvar, "/")[[1]])]),
+                na.rm=TRUE)
+        }          
+        sapply(sets, ff)
+    }) 
+
+
 
 # upper bound (also known as plausibility)
 setMethod("upper", c("mass", "character"),
-    function(x, set) {
-        # returns true whenever a state within "states" is found in "mStates"
-        f <- function(mStates, states) !all(is.na(match(states, mStates)))
-        # apply over each focal element (set)
-        i <- unlist(lapply(strsplit(names(x@focal), "/"), f, 
-                           strsplit(set, "/")[[1]]))
-        # return plausibility
-        sum(unlist(x@focal)[i])
-   })  
+    function(x, sets) {
+        ff <- function(set) {        
+            # returns true whenever a state within "states" is found in "mStates"
+            f <- function(mStates, states) !all(is.na(match(states, mStates)))
+            # apply over each focal element (set)
+            i <- unlist(lapply(strsplit(names(x@focal), "/"), f, 
+                               strsplit(set, "/")[[1]]))
+            # return plausibility
+            sum(unlist(x@focal)[i])
+        }
+        sapply(sets, ff)
+    })  
+
 
 # Dempster's combination operator, two mass functions
 setMethod("dComb", c("mass", "mass"), 

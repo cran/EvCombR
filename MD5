@@ -1,9 +1,9 @@
-b7892b6fae6167231864433f8fb82df6 *DESCRIPTION
-318f9c85732699570bad73928e152c66 *LICENSE
-d1795703acd8182cdfbc308019184a69 *NAMESPACE
-934ebe569f9b585c0182f93f7aecf684 *R/EvCombR.R
-7092b2ed87527258beb224dc15678360 *inst/CITATION
-9ba5ade540cbb56bbb0afa6fb268f202 *inst/NEWS.Rd
+33b2afd7b537979f2965d1f5e1dcd4a3 *DESCRIPTION
+c2a5e8535d5b0a058cd91369a2a35c95 *LICENSE
+a4b6887f89d0b0988fc4b48310f1a963 *NAMESPACE
+dd7da038af443b613645749f52d69591 *R/EvCombR.R
+72e1409b51f79506491f2dfd5ef2c87c *inst/CITATION
+b08cb3326861ee23815cefc96dc63c33 *inst/NEWS.Rd
 c3ab4c27beb115130497711451e2a14c *man/EvCombR-package.Rd
 b42055e8a9d4d6703f541df5d3ca4292 *man/cComb-methods.Rd
 8ec4445844759b863a5f9cdf583a6028 *man/cComb.Rd
@@ -20,8 +20,8 @@ da2027a58feaa2f5ddf5869a5dda84e8 *man/extPoints.Rd
 e17f017e3cf28e42760b5eb422fc5348 *man/focal.Rd
 99a477e0e60eac3b36bee49ea863928c *man/focal_--methods.Rd
 e355fa7699ebe03122f2ec9c0c1b5097 *man/focal_-.Rd
-6c671b186f1c05cb941e38103a36e1f8 *man/lower-methods.Rd
-e2eac1d87f1e9e3b81a9aa79feedb8d1 *man/lower.Rd
+cb7f520328f169e254e2f9ea1e080374 *man/lower-methods.Rd
+94e8d0249c2853914c822b174992d2da *man/lower.Rd
 dc1e374f53325101558c114e4f10e4a9 *man/mComb-methods.Rd
 6ab1f556dc522d3f6eee972eb79d553e *man/mComb.Rd
 6b6b946ed3e396fbb39ae3713d40719f *man/mass-class.Rd
@@ -36,8 +36,8 @@ bd8b6d55bccc016cbcaa3bdb1c96addb *man/space-methods.Rd
 9e592a37db01fe62cac9792e83e5d30a *man/space.Rd
 d7ebae3ff0458b9f37736324d9b5cb87 *man/space_--methods.Rd
 99f51f8cc970ac8273fe8d1fa6b812cc *man/space_-.Rd
-15ddcf5b013de91dbade85cdc36d7058 *man/upper-methods.Rd
-c66c52b7a74cd96c1201742399e67563 *man/upper.Rd
+804dbbe02071b8ad8c062a27e32dff14 *man/upper-methods.Rd
+dc61ab3bb20be981760d17c7e33cd1f3 *man/upper.Rd
 cb20b27be122f3122a60f4e53c80821c *man/yComb-methods.Rd
 cc1fc6f69e48cae8d0c8f11c31e53af6 *man/yComb.Rd
 a368b5a7a77f9cbbd5607bba5db72689 *man/z[-methods.Rd

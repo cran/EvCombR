@@ -6,18 +6,18 @@
 \alias{upper,mass,character-method}
 \title{Methods for Function \code{upper}}
 \description{
-Calculate upper bounds for some states with respect to the evidence structure. For more detail see \code{\link{upper}}.
+Calculate lower bounds for a vector of sets with respect to the evidence structure. For more detail see \code{\link{upper}}
 }
 \section{Methods}{
 \describe{
 
-\item{\code{signature(x = "credal", set = "character")}}{
- obtain the lower bound for a specific set of states   
+\item{\code{signature(x = "credal", sets = "character")}}{
+obtain upper bounds for a vector of sets 
 }
 
 
-\item{\code{signature(x = "mass", set = "character")}}{
-obtain the Belief, or lower bounds, for a specific set of states
+\item{\code{signature(x = "mass", sets = "character")}}{
+obtain the plausability, or upper bounds, for a vector of sets     
 }
 }}
 \keyword{methods}

@@ -1,26 +1,26 @@
 \name{lower}
 \alias{lower}
 \title{
-Lower Bounds on Evidence Structure
+Lower Bounds Based on Evidence Structure
 }
 \description{
-Calculate the lower bounds for a specific set of states
+Calculate the lower bounds for a vector of sets
 }
 \usage{
-lower(x, set)
+lower(x, sets)
 }
 
 \arguments{
 \item{x}{
 credal set or mass function
 }
-\item{set}{
-set of states represented as character where the states is separated by "/"
+\item{sets}{
+vector of sets where each set is represented by state names separated by "/"
 }
 }
 
 \value{
-lower bound of mass or probability for states in the set
+lower bound of mass or probability for each set in the vector
 }
 
 \references{
@@ -34,7 +34,7 @@ Alexander Karlsson
 }
 
 \note{
-This is equivalent to Belief in Dempster-Shafer theory
+This is equivalent to belief in Dempster-Shafer theory
 }
 
 \seealso{
@@ -53,7 +53,7 @@ c <- credal(c(0.1, 0.1, 0.1),
             c(0.8, 0.8, 0.8), stateSpace)
 
 # calculate lower bounds
-lower(m, "a/b")
-lower(c, "a/b")
+lower(m, c("a", "a/b"))
+lower(c, c("a", "a/b"))
 
 }

@@ -1,10 +1,10 @@
-citHeader("To cite package ?EvCombR? in publications use:")
+citHeader("To cite package EvCombR use:")
      
 citEntry(entry = "Manual",
     title = "EvCombR - Evidence Combination in R",
     author = personList(as.person("Alexander Karlsson")),
-    year = 2013 ,
-    note = "Version 0.1",
-    textVersion = "Alexander Karlsson, EvCombR, Version 0.1, 2013")
+    year = 2014,
+    note = "Version 0.1-1",
+    textVersion = "Alexander Karlsson, EvCombR - Evidence Combination in R, Version 0.1-1, 2014")
      
 

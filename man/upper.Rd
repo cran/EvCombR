@@ -1,26 +1,26 @@
 \name{upper}
 \alias{upper}
 \title{
-Upper Bounds on Evidence Structure
+Upper Bounds Based on Evidence Structure
 }
 \description{
-Calculate the upper bounds for a specific set of states
+Calculate the upper bounds for a vector of sets         
 }
 \usage{
-upper(x, set)
+upper(x, sets)
 }
 
 \arguments{
 \item{x}{
 credal set or mass function
 }
-\item{set}{
-set of states represented as character where the states is separated by "/"
+\item{sets}{
+vector of sets where each set is represented by state names separated by "/"
 }
 }
 
 \value{
-upper bound of mass or probability for states in set
+upper bound of mass or probability for each set in the vector
 }
 
 \references{
@@ -52,8 +52,8 @@ m <- mass(list("a"=0.1, "b"=0.1 ,
 c <- credal(c(0.1, 0.1, 0.1), 
             c(0.8, 0.8, 0.8), stateSpace)
 
-# calculate upper bounds
-upper(m, "a/b")
-upper(c, "a/b")
+# calculate lower bounds
+upper(m, c("a", "a/b"))
+upper(c, c("a", "a/b"))   
 
 }
