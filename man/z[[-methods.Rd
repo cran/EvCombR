@@ -1,14 +1,14 @@
 \name{[[-methods}
 \docType{methods}
 \alias{[[-methods}
-\alias{[[,mass-method}
+\alias{[[,mass,character,missing-method}
 \title{Methods for Function \code{[[}}
 \description{
-ObaMethods for function \code{[[}
+Methods for function \code{[[}
 }
 \section{Methods}{
 \describe{
-    \item{\code{signature(x = "mass")}}{
+    \item{\code{signature(x="mass", i="character", j="missing")}}{
         Extract a single focal element from the list of focal elements
     }
 }}

@@ -1,5 +1,5 @@
 # =============================================================================
-# EvCombR, R Package for combining evidence, Version 0.1-1 
+# EvCombR, R Package for combining evidence, Version 0.1-2 
 # Copyright (c) 2014 Alexander Karlsson
 #
 # License: The MIT License (MIT)
@@ -34,7 +34,7 @@
 # ============== Hooks ========================================================
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage("
-EvCombR - Evidence Combination in R, Version 0.1-1 
+EvCombR - Evidence Combination in R, Version 0.1-2 
 Copyright (c) 2014, Alexander Karlsson
 License: MIT
 ")
@@ -104,7 +104,6 @@ setGeneric("lower", function(x, sets) standardGeneric("lower"))
 # upper bounds for a set of states          
 setGeneric("upper", function(x, sets) standardGeneric("upper"))    
 
-
 # Dempster's combination operator
 setGeneric("dComb", function(x, y) standardGeneric("dComb"))
 
@@ -124,35 +123,31 @@ setGeneric("pign", function(x) standardGeneric("pign"))
 setGeneric("relPl", function(x) standardGeneric("relPl"))
 
 # discounting operators
-setGeneric("disc", function(x,y) standardGeneric("disc"))
+setGeneric("disc", function(x, y) standardGeneric("disc"))
 
 # =================== Credal Methods ==========================================
-# constructor, single probability function with state names
-setMethod("credal", c("numeric", "character", "missing"), 
-    function(x,y) {
-        extPoints <- t(as(x, "matrix"))
-        colnames(extPoints) <- y
-        new("credal", extPoints=extPoints)
-    })
-
-
 # constructor, lower/upper bounds and state names
-setMethod("credal", c("numeric", "numeric", "character"), 
+setMethod("credal", c(x="numeric", y="numeric", z="character"), 
     function(x, y, z) { 
         extPoints <- getExtPoints(x, y)
         colnames(extPoints) <- z
         new("credal", extPoints=extPoints)
     })
 
+# constructor, lower bounds only
+setMethod("credal", c(x="numeric", y="missing", z="character"), 
+          function(x, y, z) {
+              credal(x, rep(1,length(x)), z)
+          })
 
           
 # method for indexing probabilities 
-setMethod("[", c("credal", "ANY", "ANY"), function(x,i,j) x@extPoints[i,j])
+setMethod("[", c(x="credal", i="ANY", j="ANY"), function(x,i,j) x@extPoints[i,j])
 
 
 
 # replacement method for probability
-setReplaceMethod("[", c("credal", "ANY", "ANY", "ANY"), 
+setReplaceMethod("[", c(x="credal", i="ANY", j="ANY", value="ANY"), 
                  function(x, i, j, value) {
                      x@extPoints[i,j] <- value
                      x
@@ -160,19 +155,19 @@ setReplaceMethod("[", c("credal", "ANY", "ANY", "ANY"),
 
 
 # replacement method for names
-setReplaceMethod("space", c("credal", "character"), 
+setReplaceMethod("space", c(x="credal", value="character"), 
     function(x, value) {
         credal(x@extPoints, value)
     }) 
 
 # obtain state names 
-setMethod("space", "credal", function(x) {colnames(x@extPoints)})
+setMethod("space", c(x="credal"), function(x) {colnames(x@extPoints)})
      
 # get points (in matrix form)
-setMethod("extPoints", "credal", function(x) x@extPoints) 
+setMethod("extPoints", c(x="credal"), function(x) x@extPoints) 
 
-# lower bounds, for states in the set "set"
-setMethod("lower", c("credal", "character"), 
+# lower bounds, for sets in the character vector sets
+setMethod("lower", c(x="credal", sets="character"), 
     function(x, sets) {
         f <- function(set) {
             min(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
@@ -180,20 +175,32 @@ setMethod("lower", c("credal", "character"),
         sapply(sets, f)
     })
 
+# lower bounds for singletons
+setMethod("lower", c(x="credal", sets="missing"), 
+    function(x) {
+       apply(x@extPoints, 2, min)
+    }) 
+
 
 # upper bounds, for states in the set "set" 
-setMethod("upper", c("credal", "character"), 
+setMethod("upper", c(x="credal", sets="character"), 
     function(x, sets) {
         f <- function(set) {             
-              max(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 1, sum))
+              max(apply(as.matrix(x@extPoints[,strsplit(set,"/")[[1]]]), 
+                        1, sum))
         }
         sapply(sets, f)  
     })  
 
+# upper bounds for singletons
+setMethod("upper", c(x="credal", sets="missing"), 
+    function(x) {
+       apply(x@extPoints, 2, max)
+    })   
 
 
 # credal combination operator, for credal sets
-setMethod("cComb", c("credal", "credal"), 
+setMethod("cComb", c(x="credal", y="credal"), 
     function(x, y)  {
         # first make lists of rows
         xl <- lapply(1:nrow(x@extPoints), function(i) x@extPoints[i,])
@@ -217,14 +224,14 @@ setMethod("cComb", c("credal", "credal"),
     })
 
 # credal combination operator, list of credal sets
-setMethod("cComb", c("list", "missing"), 
+setMethod("cComb", c(x="list", y="missing"), 
     function(x) {
         Reduce(cComb, x)    
     })  
 
 # ===================== Mass Methods ==========================================
 # constructor, list containing set=mass and the space 
-setMethod("mass", c("list", "character"), 
+setMethod("mass", c(x="list", y="character"), 
     function(x, y) {
         # check mass function before rounding and normalization
         if (!checkStruc(as(x, "numeric"))) {
@@ -235,11 +242,11 @@ setMethod("mass", c("list", "character"),
         res <- x[x > 0]    
     
         # construct mass function
-        new("mass", focal=res, space=y)
+        new("mass", focal=sortCard(res), space=y)
     })
     
 # constructor for massQ 
-setMethod("mass", c("massQ", "missing"),
+setMethod("mass", c(x="massQ", y="missing"),
     function(x) {
         # restore mass function
         stateSpace <- paste0(x@space, collapse="/")
@@ -253,48 +260,86 @@ setMethod("mass", c("massQ", "missing"),
     })
 
 # method for indexing focal elements
-setMethod("[", c("mass", "ANY"), function(x,i) x@focal[i])
+setMethod("[", c(x="mass", i="character", j="missing"), 
+    function(x, i) {
+        names(x@focal) <- sapply(names(x@focal), setSort)
+        x@focal[sapply(i, setSort)]
+    })
+
 
 # method for obtaining single focal element values 
-setMethod("[[", c("mass", "ANY"), function(x,i) x@focal[[i]])
+setMethod("[[", c(x="mass", i="character", j="missing"), 
+    function(x, i) { 
+        names(x@focal) <- sapply(names(x@focal), setSort)
+        x@focal[[setSort(i)]]
+    })   
 
 # obtain state names
-setMethod("space", "mass", function(x) x@space)
+setMethod("space", c(x="mass"), function(x) x@space)
 
 # obtain focal sets
-setMethod("focal", "mass", function(x) x@focal)         
+setMethod("focal", c(x="mass"), function(x) x@focal)         
+
 
 # replacement method for focal elements
-setReplaceMethod("[", c("mass", "ANY", "ANY"), 
-    function(x,i,value) {
-        x@focal[i] <- value
+setReplaceMethod("[", c(x="mass", i="character", j="missing", value="ANY"), 
+    function(x, i, value) {
+        # make sets order invariant
+        sets <- sapply(names(x@focal), setSort)
+        indices <- match(sapply(i,setSort),sets)
+        
+        # divide into two groups
+        indExist <- ifelse(is.na(indices), FALSE, TRUE)
+        indNotExist <- !indExist
+
+        # replace existing focal elements
+        if (any(indExist)) {
+            x@focal[indices] <- value[indExist] 
+        }
+      
+        # add new elements (if any) 
+        if (any(indNotExist)) {
+            temp <- as.list(value[indNotExist])
+            names(temp) <- i[which(is.na(indices))]
+            x@focal <- c(x@focal, temp)
+        }
+
+        # check for empty list
+        if (length(x@focal) > 0) {
+            # sort according to cardinality
+            x@focal <- sortCard(x@focal)
+        }
         x
     })   
 
-                      
+
+# replacement method for a single focal element
+setReplaceMethod("[[", c(x="mass", i="character", j="missing", value="ANY"), 
+    function(x, i, value) {
+        x[i] <- value
+        x
+    })   
+
 # replacement function for state names
-setReplaceMethod("space", c("mass", "character"), 
+setReplaceMethod("space", c(x="mass", value="character"), 
     function(x, value) {
         mass(x@focal, value)
     })
 
 # replacement function for focal elements
-setReplaceMethod("focal", c("mass", "list"), 
-                 function(x, value) {
-                     mass(value, x@space)
-                 })  
+setReplaceMethod("focal", c(x="mass", value="list"), 
+    function(x, value) {
+        mass(value, x@space)
+    })  
 
 
-# lower bound (also known as Belief)
-setMethod("lower", c("mass", "character"),
+# lower bounds (also known as Belief) for sets in the character vector sets
+setMethod("lower", c(x="mass", sets="character"),
     function(x, sets) {
         ff <- function(set) {
             # make sets invariant to order
-            f <- function(set) {
-                paste0(sort(strsplit(set, "/")[[1]]), collapse="/")            
-            }
-            setInvar <- f(set)
-            names(x@focal) <- sapply(names(x@focal), f)                           
+            setInvar <- setSort(set)
+            names(x@focal) <- sapply(names(x@focal), setSort)                           
               
             # sum over all subsets of "set" 
             sum(unlist(x@focal[powerSet(strsplit(setInvar, "/")[[1]])]),
@@ -303,10 +348,14 @@ setMethod("lower", c("mass", "character"),
         sapply(sets, ff)
     }) 
 
+# lower bounds for singletons
+setMethod("lower", c(x="mass", sets="missing"),
+    function(x) {
+        lower(x, x@space)   
+    })    
 
-
-# upper bound (also known as plausibility)
-setMethod("upper", c("mass", "character"),
+# upper bounds (also known as Plausibility) for sets in character vector sets
+setMethod("upper", c(x="mass", sets="character"),
     function(x, sets) {
         ff <- function(set) {        
             # returns true whenever a state within "states" is found in "mStates"
@@ -320,9 +369,15 @@ setMethod("upper", c("mass", "character"),
         sapply(sets, ff)
     })  
 
+# upper bounds for singletons
+setMethod("upper", c(x="mass", sets="missing"),
+    function(x) {
+        upper(x, x@space)   
+    })
+
 
 # Dempster's combination operator, two mass functions
-setMethod("dComb", c("mass", "mass"), 
+setMethod("dComb", c(x="mass", y="mass"), 
     function(x, y) {
         arithOp <- function(i, j) {
             x@focal[[i]] * y@focal[[j]]    
@@ -331,13 +386,13 @@ setMethod("dComb", c("mass", "mass"),
     })
 
 # Dempster's combination operator, list of mass functions
-setMethod("dComb", c("list", "missing"), 
+setMethod("dComb", c(x="list", y="missing"), 
     function(x) {
         Reduce(dComb, x)    
     })  
 
 # Modified Dempster-Shafer, two mass functions and q
-setMethod("mComb", c("mass", "mass", "list"), 
+setMethod("mComb", c(x="mass", y="mass", z="list"), 
     function(x, y, z) {
         # help function for calculating the probability for a set of states 
         # using the the list z (a probability distribution) 
@@ -357,7 +412,7 @@ setMethod("mComb", c("mass", "mass", "list"),
     })
 
 # Modified Dempster-Shafer, two mass functions with default uniform q
-setMethod("mComb", c("mass", "mass", "missing"), 
+setMethod("mComb", c(x="mass", y="mass", z="missing"), 
     function(x, y) {
         # construct uniform q-function
         l <- as((rep(1/length(x@space), length(x@space))), "list")
@@ -369,7 +424,7 @@ setMethod("mComb", c("mass", "mass", "missing"),
 
 
 # Modified Dempster-Shafer, list of mass functions and q
-setMethod("mComb", c("list", "list", "missing"), 
+setMethod("mComb", c(x="list", y="list", z="missing"), 
     # contruct a two argument wrapper for the higher order function "Reduce"
     function(x, y) {
         mCombWrapper <- function(op1, op2) {
@@ -379,7 +434,7 @@ setMethod("mComb", c("list", "list", "missing"),
     })
 
 # Modified Dempster-Shafer, list of mass functions with default q (uniform)
-setMethod("mComb", c("list", "missing", "missing"), 
+setMethod("mComb", c(x="list", y="missing", z="missing"), 
     # contruct a two argument wrapper for the higher order function "Reduce"
     function(x) {
         Reduce(mComb, x)    
@@ -387,7 +442,7 @@ setMethod("mComb", c("list", "missing", "missing"),
 
 # Yager's combination operator (quasi-associative), two mass functions and
 # state space
-setMethod("yComb", c("mass", "mass"), 
+setMethod("yComb", c(x="mass", y="mass"), 
     function(x,y) {
         # check if x or y are of type massQ and if so transform to a mass 
         # function
@@ -427,13 +482,13 @@ setMethod("yComb", c("mass", "mass"),
 
 # Yager's combination operator (quasi-associative), list of mass functions and 
 # state space
-setMethod("yComb", c("list", "missing"), 
+setMethod("yComb", c(x="list", y="missing"), 
     function(x) {
         Reduce(yComb, x)       
     })
 
 # Pignistic transformation for mass functions
-setMethod("pign", "mass", 
+setMethod("pign", c(x="mass"), 
     function(x) {
         # obtain singletons
         elem <- factor(unlist(strsplit(names(x@focal), "/")))
@@ -448,23 +503,25 @@ setMethod("pign", "mass",
         temp <- tapply(mElem, elem, sum)
         res <- rep(0, length(x@space))
         res[match(names(temp), x@space)] <- temp
-        credal(as(res, "vector"), x@space)       
+        credal(as(res, "vector"), as(res, "vector"), x@space)       
 })           
 
 # Relative plausibility transformation for mass functions
-setMethod("relPl", "mass",            
+setMethod("relPl", c(x="mass"),            
     function(x) {
         # obtain plausabilities
         pl <- sapply(x@space, function(set) upper(x,set))
         # obtain normalization constant
         K <- sum(pl)
+        # normalize
+        prob <- pl/K
         # return relative plausibility for the specified set
-        credal((pl/K), x@space)
+        credal(prob, prob, x@space)
     })
        
 
 # discounting operator for mass functions
-setMethod("disc", c("mass", "numeric"),
+setMethod("disc", c(x="mass", y="numeric"),
     function(x, y) {
         # perform discounting
         x@focal <- lapply(x@focal, function(z) y*z)
@@ -561,11 +618,22 @@ comb <- function(m1, m2, setOp, arithOp, norm) {
         res <- lapply(res, function(x) x / normConst) 
     }
     # return result (sorted by the cardinality of the sets)
-    order <- sapply(strsplit(names(res), "/"), Vectorize(length))
-    res[unlist(sapply(1:max(order), function(x, order) 
-            {which(x==order)}, order))]
+    sortCard(res)
 }                          
 
+
+# sort list by cardinality
+sortCard <- function(sets) {
+    order <- sapply(strsplit(names(sets), "/"), Vectorize(length))
+    sets[unlist(sapply(1:max(order), function(x, order) 
+            {which(x==order)}, order))]       
+}
+
+
+# sort a set 
+setSort <- function(set) {
+    paste0(sort(strsplit(set, "/")[[1]]), collapse="/")            
+}
 
 
 # Validity checking of evidence structures

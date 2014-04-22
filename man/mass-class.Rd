@@ -22,14 +22,15 @@ Objects can be created by \code{\link{credal}}.
 
 \section{Methods}{
 \describe{
-    \item{[}{\code{signature(x = "mass")}: extract focal elements}
-    \item{[[}{\code{signature(x = "mass")}: extract a single focal element}
-    \item{[[<-}{\code{signature(x = "mass")}: replace a single focal element}
-    \item{[<-}{\code{signature(x = "mass")}: replace focal elements}
+    \item{[}{\code{signature(x = "mass", i = "character", j = "missing")}: extract focal elements}
+    \item{[[}{\code{signature(x = "mass", i = "character", j = "missing")}: extract a single focal element}
+    \item{[<-}{\code{signature(x="mass", i="character", j="missing", value="ANY")}: replace focal elements}    
+    \item{[[<-}{\code{signature(x="mass", i="character", j="missing", value="ANY")}: replace a single focal element}
     \item{dComb}{\code{signature(x = "mass", y = "mass")}: combine two mass functions by Dempster's combination}
     \item{focal}{\code{signature(x = "mass")}: access focal elements}
     \item{focal<-}{\code{signature(x = "mass")}: replace focal elements }
-    \item{lower}{\code{signature(x = "mass", set = "character")}: calculate the lower bound for some focal element}
+    \item{lower}{\code{signature(x = "mass", set = "character")}: calculate the lower bounds for some focal element}
+     \item{lower}{\code{signature(x = "mass", set = "missing")}: calculate the lower bounds for singletons}   
     \item{mComb}{\code{signature(x = "mass", y = "mass", z = "function")}: combine two mass functions by modified Dempster's combination using a prior distribution z }
     \item{mComb}{\code{signature(x = "mass", y = "mass", z = "missing")}: combine two mass functions by modified Dempster's combination using a uniform prior distribution z}
     \item{pign}{\code{signature(x = "mass")}: calculate the pignistic transformation for single states}
@@ -37,6 +38,7 @@ Objects can be created by \code{\link{credal}}.
     \item{space}{\code{signature(x = "mass")}: access the state space (frame of discernment)}
     \item{space<-}{\code{signature(x = "mass")}: replace the state space (frame of discernment)}
     \item{upper}{\code{signature(x = "mass", set = "character")}: calculate the upper bound for some focal element }
+    \item{upper}{\code{signature(x = "mass", set = "character")}: calculate the upper bounds for singletons}    
     \item{yComb}{\code{signature(x = "mass", y = "mass")}: combine two mass functions using Yager's rule}
 	\item{disc}{\code{signature(x = "mass", y = "numeric")}: discount mass function}
 	}

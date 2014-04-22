@@ -4,6 +4,7 @@ exportMethods(
     "[",
     "[[",
     "[<-",
+    "[[<-",
     "cComb",
     "credal",
     "dComb",

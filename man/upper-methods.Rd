@@ -4,6 +4,7 @@
 \alias{upper,credal,character-method}
 \alias{upper,credal,missing-method}
 \alias{upper,mass,character-method}
+\alias{upper,mass,missing-method}       
 \title{Methods for Function \code{upper}}
 \description{
 Calculate lower bounds for a vector of sets with respect to the evidence structure. For more detail see \code{\link{upper}}
@@ -15,9 +16,17 @@ Calculate lower bounds for a vector of sets with respect to the evidence structu
 obtain upper bounds for a vector of sets 
 }
 
+\item{\code{signature(x = "credal", sets = "missing")}}{
+obtain upper bounds for all singletons 
+}     
 
 \item{\code{signature(x = "mass", sets = "character")}}{
 obtain the plausability, or upper bounds, for a vector of sets     
 }
+
+\item{\code{signature(x = "mass", sets = "missing")}}{
+obtain the plausability, or upper bounds, for all singletons    
+}  
+
 }}
 \keyword{methods}

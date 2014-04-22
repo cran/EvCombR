@@ -1,7 +1,7 @@
 \name{focal<-}
 \alias{focal<-}
 \title{
-Replacement Functino for Focal Elements
+Replacement Function for Focal Elements
 }
 
 \description{

@@ -12,8 +12,8 @@ Package for combining pieces of evidence.
 \tabular{ll}{
 Package: \tab EvCombR\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2013-09-10\cr
+Version: \tab 0.1-2\cr
+Date: \tab 2014-04-22\cr
 License: \tab MIT\cr
 Depends: \tab methods\cr
 }

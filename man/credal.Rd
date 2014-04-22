@@ -14,13 +14,13 @@ credal(x, y, z)
 
 \arguments{
 \item{x}{
-lower bounds of probabilities or a single probability function (in the form of a numeric vector)
+lower bounds of probability intervals (in the form of a numeric vector)
 }
 \item{y}{
-character vector representing the state space if \code{x} is a single probability function or upper bounds for probabilities if \code{x} are lower bounds 
+upper bounds for probability intervals or missing (i.e., upper bound of \code{1})
 }
 \item{z}{
-character vector representing the state space if \code{x} and \code{y} are lower respective upper bounds of probabilities
+character vector representing the state space 
 }
 }
 
@@ -49,11 +49,11 @@ Alexander Karlsson
 # state space
 stateSpace <- c("a", "b", "c")
 
-# lower and upper bounds
+# lower and upper bounds for probability intervals
 c1 <- credal(c(0.1, 0.1, 0.1), c(0.8, 0.8, 0.8), stateSpace)
 
-# single probability function
-c2 <- credal(c(0.1, 0.2, 0.7), stateSpace)
+# single probability function (lower and upper bounds of probability intervals are equal)
+c2 <- credal(c(0.1, 0.2, 0.7), c(0.1, 0.2, 0.7), stateSpace)
 
 }
 

@@ -4,7 +4,7 @@ citEntry(entry = "Manual",
     title = "EvCombR - Evidence Combination in R",
     author = personList(as.person("Alexander Karlsson")),
     year = 2014,
-    note = "Version 0.1-1",
-    textVersion = "Alexander Karlsson, EvCombR - Evidence Combination in R, Version 0.1-1, 2014")
+    note = "Version 0.1-2",
+    textVersion = "Alexander Karlsson, EvCombR - Evidence Combination in R, Version 0.1-2, 2014")
      
 

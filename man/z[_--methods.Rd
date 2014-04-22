@@ -1,8 +1,8 @@
 \name{[<--methods}
 \docType{methods}
 \alias{[<--methods}
-\alias{[<-,credal-method}
-\alias{[<-,mass-method}
+\alias{[<-,credal,ANY,ANY-method}
+\alias{[<-,mass,character,missing-method}
 
 \title{Methods for Function \code{[<-}}
 \description{
@@ -10,11 +10,11 @@ Replace part of an evidence structure
 }
 \section{Methods}{
 \describe{
-\item{\code{signature(x = "credal")}}{
+\item{\code{signature(x="credal", i="ANY", j="ANY", value="ANY")}}{
     Replace probabilities
 }
 
-\item{\code{signature(x = "mass")}}{
+\item{\code{signature(x="mass", i="character", j="missing", value="ANY")}}{
     Replace focal element(s)
 
 }

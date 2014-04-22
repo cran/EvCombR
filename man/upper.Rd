@@ -15,12 +15,12 @@ upper(x, sets)
 credal set or mass function
 }
 \item{sets}{
-vector of sets where each set is represented by state names separated by "/"
+vector of sets where each set is represented by state names separated by "/". If sets are missing, upper bounds on singletons are calculated.
 }
 }
 
 \value{
-upper bound of mass or probability for each set in the vector
+upper bound of mass or probability for each set in the vector sets or if sets is missing upper bounds on singletons               
 }
 
 \references{
@@ -52,8 +52,11 @@ m <- mass(list("a"=0.1, "b"=0.1 ,
 c <- credal(c(0.1, 0.1, 0.1), 
             c(0.8, 0.8, 0.8), stateSpace)
 
-# calculate lower bounds
+# calculate upper bounds
 upper(m, c("a", "a/b"))
-upper(c, c("a", "a/b"))   
+upper(c, c("a", "a/b")) 
+
+# upper bounds on singletons
+upper(m)
 
 }

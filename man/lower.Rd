@@ -15,12 +15,12 @@ lower(x, sets)
 credal set or mass function
 }
 \item{sets}{
-vector of sets where each set is represented by state names separated by "/"
+vector of sets where each set is represented by state names separated by "/". If sets are missing, lower bounds on singletons are calculated.
 }
 }
 
 \value{
-lower bound of mass or probability for each set in the vector
+lower bound of mass or probability for each set in the vector sets or if sets is missing lower bounds on singletons
 }
 
 \references{
@@ -55,5 +55,8 @@ c <- credal(c(0.1, 0.1, 0.1),
 # calculate lower bounds
 lower(m, c("a", "a/b"))
 lower(c, c("a", "a/b"))
+
+# lower bounds on singletons
+lower(m)
 
 }

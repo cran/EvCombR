@@ -1,8 +1,8 @@
 \name{[-methods}
 \docType{methods}
 \alias{[-methods}
-\alias{[,credal-method}
-\alias{[,mass-method}
+\alias{[,credal,ANY,ANY-method}
+\alias{[,mass,character,missing-method}
 \title{Methods for Function \code{[}}
 \description{
 Extract part of evidence structure \code{[} 
@@ -12,11 +12,11 @@ Extract part of evidence structure \code{[}
 
 \describe{
 
-\item{\code{signature(x = "credal", i = "ANY", j="ANY")}}{
+\item{\code{signature(x = "credal", i = "ANY", j="ANY", value="ANY")}}{
 Extract probabilities
 }
 
-\item{\code{signature(x = "mass", i= "ANY", j="ANY")}}{
+\item{\code{signature(x = "mass", i = "character", j="missing", value="ANY")}}{
 Extract focal element(s)
 }
 }}
@@ -37,7 +37,7 @@ c[1:2,]
 m <- mass(list("a"=0.1, "b"=0.1 , "c"=0.4, "a/b/c"=0.4), stateSpace)  
 
 # extract focal elements
-m[c("a", "a/b/c")]
+m[c("a","a/b/c")]
 }
 
 \keyword{methods}

@@ -22,8 +22,8 @@ Objects can be created by \code{\link{credal}}.
 
 \section{Methods}{
 \describe{
-    \item{[}{\code{signature(x = "credal")}: extract an extreme point}
-    \item{[<-}{\code{signature(x = "credal")}: replace and extreme point}
+    \item{[}{\code{signature(x="credal", i="ANY", j="ANY")}: extract an extreme point}
+    \item{[<-}{\code{signature(x="credal", i="ANY", j="ANY", value="ANY")}: replace and extreme point}
     \item{cComb}{\code{signature(x = "credal", y = "credal")}: combine two credal sets }
     \item{lower}{\code{signature(x = "credal", set = "character")}: calculate the lower bound for a specific set of states }
     \item{lower}{\code{signature(x = "credal", set = "missing")}: calculate the lower bounds for all singleton states}
