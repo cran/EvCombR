@@ -1,45 +1,53 @@
-# =============================================================================
-# EvCombR, R Package for combining evidence, Version 0.1-2 
-# Copyright (c) 2014 Alexander Karlsson
+# Copyright 2013, 2014, 2022 Alexander Karlsson       
+# This file is part of EvCombR.
 #
-# License: The MIT License (MIT)
+# EvCombR is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-# Permission is hereby granted, free of charge, to any person obtaining
-# a copy of this software and associated documentation files (the
-# "Software"), to deal in the Software without restriction, including
-# without limitation the rights to use, copy, modify, merge, publish,
-# distribute, sublicense, and/or sell copies of the Software, and to
-# permit persons to whom the Software is furnished to do so, subject to
-# the following conditions:
+# EvCombR is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-# The above copyright notice and this permission notice shall be
-# included in all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.    
-# =============================================================================   
+# You should have received a copy of the GNU General Public License
+# along with EvCombR. If not, see <https://www.gnu.org/licenses/>.   
 
-# ============== Support ====================================================== 
 # This work was supported by the Information Fusion Research Program 
 # in partnership with the Swedish Knowledge Foundation under
-# grant 2010-0320 (URL: http://www.infofusion.se, UMIF project)
-# =============================================================================
+# grant 2010-0320 
 
-
+   
 # ============== Hooks ========================================================
 .onAttach <- function(libname, pkgname) {
     packageStartupMessage("
-EvCombR - Evidence Combination in R, Version 0.1-2 
-Copyright (c) 2014, Alexander Karlsson
-License: MIT
-")
+EvCombR Copyright (C) 2013, 2014, 2022 Alexander Karlsson 
+This program comes with ABSOLUTELY NO WARRANTY; for details type 
+EvCombRLicense(). This is free software, and you are welcome to 
+redistribute it under certain conditions; type EvCombRLicense() 
+for details.")     
 }
 
+# ============== License Information ==========================================
+EvCombRLicense <- function() {
+cat("EvCombR
+Copyright (C) 2013, 2014, 2022 Alexander Karlsson
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.\n")	
+}        
+     
 # ============== Class Definitions ============================================
 # credal sets (extreme points)
 setClass("credal", representation(extPoints="matrix"))
@@ -602,7 +610,7 @@ comb <- function(m1, m2, setOp, arithOp, norm) {
                           res
                       }
                   }, SIMPLIFY=FALSE))
-    # tranform to factors (makes calculations easier)
+    # transform to factors (makes calculations easier)
     sets <- factor(sapply(temp, function(x) paste0(x, collapse = "/")))
     # get the product over the intersections
     m <- as(outer(1:length(m1@focal), 1:length(m2@focal), arithOp), "vector")

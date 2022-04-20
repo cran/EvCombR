@@ -3,8 +3,8 @@ citHeader("To cite package EvCombR use:")
 citEntry(entry = "Manual",
     title = "EvCombR - Evidence Combination in R",
     author = personList(as.person("Alexander Karlsson")),
-    year = 2014,
-    note = "Version 0.1-2",
-    textVersion = "Alexander Karlsson, EvCombR - Evidence Combination in R, Version 0.1-2, 2014")
+    year = 2022,
+    note = "Version 0.1-3",
+    textVersion = "Alexander Karlsson, EvCombR - Evidence Combination in R, Version 0.1-3, 2022")
      
 

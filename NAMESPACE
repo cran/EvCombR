@@ -1,7 +1,9 @@
 import(methods)
+importFrom("utils", "combn")
 
+export(EvCombRLicense)
 exportMethods(
-    "[",
+   "[",
     "[[",
     "[<-",
     "[[<-",
