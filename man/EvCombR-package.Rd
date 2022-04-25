@@ -9,14 +9,6 @@
 Package for combining pieces of evidence. 
 }
 \details{
-\tabular{ll}{
-Package: \tab EvCombR\cr
-Type: \tab Package\cr
-Version: \tab 0.1-2\cr
-Date: \tab 2014-04-22\cr
-License: \tab MIT\cr
-Depends: \tab methods\cr
-}
 Implements Dempster's, Yager's, modified Dempster's, Bayesian, and credal combination (based on intervals). 
 }
 \author{

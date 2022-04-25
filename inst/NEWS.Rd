@@ -2,6 +2,13 @@
 \title{News for EvCombR}
 \encoding{UTF-8}
 
+
+\section{Version 0.1-4 (2022-04-21)}{
+    \itemize{
+        \item Removed old package information from help files
+    }
+}       
+
 \section{Version 0.1-3 (2022-04-20)}{
     \itemize{
         \item License changed to GPL (>=3)

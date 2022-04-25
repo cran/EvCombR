@@ -1,8 +1,8 @@
 Package: EvCombR
 Type: Package
 Title: Evidence Combination in R
-Version: 0.1-3
-Date: 2022-04-20
+Version: 0.1-4
+Date: 2022-04-21
 Author: Alexander Karlsson
 Maintainer: Alexander Karlsson <alexander.karlsson@his.se>
 Copyright: Alexander Karlsson
@@ -11,5 +11,5 @@ License: GPL (>= 3)
 Imports: methods, utils
 NeedsCompilation: no
 Repository: CRAN
-Packaged: 2022-04-20 06:44:23 UTC; karx
-Date/Publication: 2022-04-20 07:12:30 UTC
+Packaged: 2022-04-21 07:10:02 UTC; karx
+Date/Publication: 2022-04-25 10:10:09 UTC
